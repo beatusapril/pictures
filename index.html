@@ -1,0 +1,195 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        html{
+            background: floralwhite;
+        }
+        .container{
+            overflow: hidden;
+        }
+        .wrapper{
+            width: 800px;
+            margin: 0 auto;
+        }
+        .head-block{
+            display: flex;
+        }
+        .head{
+            background: #2E8B57;
+            content: '';
+            height: 15%
+        }
+
+        .photo{
+            display: flex;
+            width: 220px;
+            height: 200px;
+            margin: -80px 5px 5px 5px;
+            background-image: url("img/photo.jpeg");
+            background-size: contain;
+            border-radius: 49%;
+
+        }
+
+        /*.photo img{*/
+        /*    border-radius: 49%;*/
+        /*    border: 1px solid;*/
+        /*}*/
+
+        .name{
+            text-shadow: 3px 2px 5px #000;
+            color: floralwhite;
+            margin-top: -80px;
+            font-size: 32pt;
+            padding: 5px;
+        }
+
+        .caption{
+            text-shadow: 3px 2px 5px black;
+            font-size: 9pt;
+            text-align: right;
+            display: block;
+        }
+
+        .less{
+            cursor: pointer;
+        }
+
+        .more{
+            cursor: pointer;
+        }
+
+        .gallery{
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .thumb-bar{
+            display: flex;
+        }
+
+        .displayed-img{
+           width: 400px;
+            height: 240px;
+            object-fit: contain;
+        }
+
+        .displayed-img img{
+            object-fit: contain;
+        }
+
+        .full-img {
+            position: relative;
+            width: 400px;
+            height: 280px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .thumb-bar img {
+            display: block;
+            cursor: pointer;
+            margin: 5px;
+            overflow: hidden;
+            width: 20%;
+            height: 10%;
+        }
+
+        .right {
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            display: block;
+            position: absolute;
+            bottom: 50%;
+        }
+
+        .left {
+            transform: rotate(135deg);
+            -webkit-transform: rotate(135deg);
+            position: absolute;
+            bottom: 50%;
+            display: block;
+        }
+
+        i {
+            border: solid black;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 3px;
+        }
+
+        .contain{
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="head"></div>
+    <div class="wrapper">
+        <div class="head-block">
+            <div class="photo"></div>
+            <div class="name">Воищева Зина<br><span class="caption">картинки животных</span></div>
+        </div>
+        <div class="gallery">
+            <div class="full-img">
+<div class="less"> <i class="left"></i></div>
+<img class="displayed-img" src="img/gallery/pick1.jpg">
+<div class="more"> <i class="right"></i></div>
+            </div>
+
+            <div class="thumb-bar">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let displayedImg = document.querySelector(".displayed-img");
+    let thumbBar = document.querySelector(".thumb-bar");
+    let less = document.querySelector(".less");
+    let more = document.querySelector(".more");
+    let arrayImg = ["pick1.jpg", "pick2.jpg", "pick3.jpg", "pick4.jpg", "pick5.jpg", "pick6.jpg", "pick7.jpg",
+        "pick8.jpg", "pick9.jpg", "pick10.jpg", "pick11.jpg"]
+    for (let i = 1; i < 6; i++){
+        let img = document.createElement("img");
+        img.setAttribute("src", "img/gallery/" + arrayImg[i]);
+        img.classList.add("contain")
+        thumbBar.appendChild(img);
+    }
+
+    function rerender(){
+        let images = thumbBar.getElementsByTagName("img");
+        for (let i = 0; i < images.length; i++){
+            images[i].src = "img/gallery/" + arrayImg[i];
+        }
+        displayedImg.src = "img/gallery/" + arrayImg[0];
+    }
+
+    less.onclick = function (event){
+        let finish = arrayImg[arrayImg.length-1];
+        for (let i = arrayImg.length-1 ; i >= 1; i--){
+            arrayImg[i] = arrayImg[i-1]
+        }
+        arrayImg[0] = finish;
+        rerender();
+    }
+
+    more.onclick = function (event){
+        let start = arrayImg[0];
+        for (let i = 1; i < arrayImg.length; i++){
+            arrayImg[i-1] = arrayImg[i];
+        }
+        arrayImg[arrayImg.length-1] = start;
+        rerender();
+    }
+
+    thumbBar.onclick = function (event){
+        if (event.target.tagName != 'IMG') return;
+        let img = event.target;
+        displayedImg.src = img.src;
+    }
+</script>
+</body>
+</html>
